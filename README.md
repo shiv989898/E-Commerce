@@ -1,50 +1,126 @@
-# Welcome to your Expo app 👋
+# 🛍️ E-Commerce Product Listing App (React Native + Expo Router)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a mobile e-commerce product listing application built using **React Native**, **Expo Router**, and **TypeScript**, designed as part of a frontend development assignment for Simplify Money.
 
-## Get started
+---
 
-1. Install dependencies
+## 📲 Features
 
-   ```bash
-   npm install
-   ```
+- ✅ Product listing from FakeStore API
+- ✅ Product details page with image, description, price, and rating
+- ✅ Wishlist functionality (toggle using heart icon)
+- ✅ Add to Cart (with persistent cart using AsyncStorage)
+- ✅ Bottom Tab Navigation (Home, Wishlist, Cart)
+- ✅ Search functionality
+- ✅ Filter by category, rating
+- ✅ Sort by price (low to high / high to low)
+- ✅ State management via Context API
+- ✅ Responsive and clean UI
 
-2. Start the app
+---
 
-   ```bash
-    npx expo start
-   ```
+## 🔧 Tech Stack
 
-In the output, you'll find options to open the app in a
+- **React Native**
+- **Expo + Expo Router**
+- **TypeScript**
+- **AsyncStorage**
+- **Context API**
+- **FakeStore API**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## ▶️ How to Run
 
-## Get a fresh project
-
-When you're ready, run:
+1. Clone the repository:
 
 ```bash
-npm run reset-project
+git clone https://github.com/shiv989898/E-Commerce
+cd E-Commerce
+
+2. Install dependencies:
+
+```bash
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+3. Start the project:
 
-## Learn more
+```bash
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+You can open the app using:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- 📱 **Expo Go** on a physical device (scan QR)
+- 🖥️ **Android/iOS Emulator**
+- 💻 **Web browser** for quick UI testing
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🗂️ File Structure
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+E-Commerce/
+├── app/
+│   ├── index.tsx           # Home screen with product listing, search, filters
+│   ├── details/[id].tsx    # Product details screen
+│   ├── wishlist.tsx        # Wishlist page
+│   ├── cart.tsx            # Cart page
+│   ├── _layout.tsx         # App layout with tab navigation
+├── context/
+│   ├── CartContext.tsx     # Cart state management (add, remove, clear)
+├── assets/                 # Static assets
+├── app.json                # Expo config
+├── package.json            # Project dependencies
+```
+
+---
+
+## 💡 My Approach
+
+- The app uses **Expo Router** for file-based navigation, allowing clean screen routing.
+- Product data is fetched dynamically from **FakeStore API**.
+- Cart and wishlist data are managed globally using **Context API**.
+- Cart is persisted using **AsyncStorage** for a seamless user experience.
+- The app supports **filtering by category/rating**, and **sorting by price**, providing a complete shopping experience.
+- The UI is clean, minimal, and responsive.
+
+---
+
+## 🚧 Challenges & Notes
+
+- Category strings from the API are not prettified (e.g., lowercase). They’re shown as-is.
+- Product quantity logic in the cart is not yet implemented — current cart assumes 1 quantity per item.
+- All features were implemented without third-party state libraries, to keep the app lightweight and easy to maintain.
+- Cart and Wishlist states reset when the app is restarted unless saved — cart is persisted, wishlist is not.
+
+---
+
+## 📸 Screenshots
+
+> ![WhatsApp Image 2025-04-05 at 01 12 54_2c17086a](https://github.com/user-attachments/assets/b2cbe0c4-0f27-4416-8aca-157df8501851)
+> ![WhatsApp Image 2025-04-05 at 01 12 55_9efff02c](https://github.com/user-attachments/assets/731eabde-06d5-4e28-bfc0-8699ceced5f7)
+>![WhatsApp Image 2025-04-05 at 01 12 54_4e4b9b4a](https://github.com/user-attachments/assets/badc60ad-89c1-4a99-a166-380a78632da1)
+> ![WhatsApp Image 2025-04-05 at 01 12 54_b621d12c](https://github.com/user-attachments/assets/82c73175-b4e1-4b74-8862-b3026a1db1e7)
+
+
+
+
+---
+
+## 🙋‍♂️ Author
+
+**Shiv Goyal**  
+📧 shivgoyal9988@gmail.com  
+🔗 [GitHub Profile](https://github.com/shiv989898)
+
+---
+
+## 📬 Submission Notes for Simplify Money
+
+- This project is submitted in response to the **React Frontend assignment** for the Software Engineering Internship at Simplify Money.
+- Please refer to this GitHub repository for the complete source code and documentation.
+- All instructions to run the project are included above.
+- Bonus features like wishlist, search, filtering, and sorting are also implemented.
+- No known unresolved bugs — the app is stable and runs as expected.
