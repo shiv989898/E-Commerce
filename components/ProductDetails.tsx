@@ -34,7 +34,7 @@ export default function ProductDetails({
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 16, alignItems: "center" },
+  container: { padding: 16, alignItems: "center", },
   image: { width: 200, height: 200, marginBottom: 16 },
   title: { fontSize: 18, fontWeight: "bold", textAlign: "center", marginBottom: 8 },
   price: { fontSize: 16, color: "#444", marginBottom: 8 },

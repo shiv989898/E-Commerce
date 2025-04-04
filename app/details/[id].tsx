@@ -52,6 +52,7 @@ import {
     container: {
       padding: 16,
       alignItems: "center",
+      
     },
     image: {
       width: 200,
