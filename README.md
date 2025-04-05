@@ -37,7 +37,7 @@ This is a mobile e-commerce product listing application built using **React Nati
 ```bash
 git clone https://github.com/shiv989898/E-Commerce
 cd E-Commerce
-
+```
 2. Install dependencies:
 
 ```bash
