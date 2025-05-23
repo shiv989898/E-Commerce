@@ -117,10 +117,3 @@ E-Commerce/
 
 ---
 
-## 📬 Submission Notes for Simplify Money
-
-- This project is submitted in response to the **React Frontend assignment** for the Software Engineering Internship at Simplify Money.
-- Please refer to this GitHub repository for the complete source code and documentation.
-- All instructions to run the project are included above.
-- Bonus features like wishlist, search, filtering, and sorting are also implemented.
-- No known unresolved bugs — the app is stable and runs as expected.
