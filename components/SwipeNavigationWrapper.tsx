@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
   useAnimatedGestureHandler,
@@ -13,7 +13,6 @@ import { useRouter, usePathname } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import SwipeIndicator from './SwipeIndicator';
 import SwipeEdgeIndicator from './SwipeEdgeIndicator';
-import TabPositionIndicator from './TabPositionIndicator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -25,10 +24,10 @@ interface SwipeNavigationWrapperProps {
 
 // Define the tab routes in order for swipe navigation
 const TAB_ROUTES = [
-  { route: '/(tabs)/', navPath: '/' },           // Home (index)
-  { route: '/(tabs)/wishlist', navPath: '/wishlist' },   // Wishlist  
-  { route: '/(tabs)/Cart', navPath: '/Cart' },       // Cart
-  { route: '/(tabs)/explore', navPath: '/explore' },    // Explore
+  { route: '/', navPath: '/' },                    // Home (index)
+  { route: '/wishlist', navPath: '/wishlist' },   // Wishlist  
+  { route: '/Cart', navPath: '/Cart' },           // Cart
+  { route: '/explore', navPath: '/explore' },     // Explore
 ];
 
 export default function SwipeNavigationWrapper({ children }: SwipeNavigationWrapperProps) {
@@ -37,8 +36,13 @@ export default function SwipeNavigationWrapper({ children }: SwipeNavigationWrap
   const pathname = usePathname();
   const [showIndicator, setShowIndicator] = useState(false);
 
-  // Show swipe indicator on first app launch
+  // Check if current screen supports swipe navigation (only tab screens)
+  const isTabScreen = TAB_ROUTES.some(tab => tab.route === pathname);
+
+  // Show swipe indicator on first app launch, but only on tab screens
   useEffect(() => {
+    if (!isTabScreen) return;
+    
     const checkFirstLaunch = async () => {
       try {
         const hasSeenSwipeIndicator = await AsyncStorage.getItem('hasSeenSwipeIndicator');
@@ -51,7 +55,7 @@ export default function SwipeNavigationWrapper({ children }: SwipeNavigationWrap
     };
     
     checkFirstLaunch();
-  }, []);
+  }, [isTabScreen]);
 
   const markIndicatorAsSeen = async () => {
     try {
@@ -64,12 +68,15 @@ export default function SwipeNavigationWrapper({ children }: SwipeNavigationWrap
 
   const getCurrentTabIndex = () => {
     // Normalize the current pathname for comparison
-    const currentPath = pathname === '/' ? '/(tabs)/' : pathname;
+    const currentPath = pathname;
     const index = TAB_ROUTES.findIndex(tab => tab.route === currentPath);
     return index >= 0 ? index : 0;
   };
 
   const navigateToTab = (direction: 'left' | 'right') => {
+    // Only navigate if we're on a tab screen
+    if (!isTabScreen) return;
+    
     const currentIndex = getCurrentTabIndex();
     let newIndex: number;
 
@@ -140,19 +147,20 @@ export default function SwipeNavigationWrapper({ children }: SwipeNavigationWrap
   });
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={[{ flex: 1 }, animatedStyle]}>
-          {children}
-          <SwipeEdgeIndicator translateX={translateX} side="left" />
-          <SwipeEdgeIndicator translateX={translateX} side="right" />
-          <TabPositionIndicator />
-          <SwipeIndicator 
-            visible={showIndicator} 
-            onComplete={markIndicatorAsSeen}
-          />
-        </Animated.View>
-      </PanGestureHandler>
-    </GestureHandlerRootView>
+    <PanGestureHandler onGestureEvent={gestureHandler}>
+      <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+        {children}
+        {isTabScreen && (
+          <>
+            <SwipeEdgeIndicator translateX={translateX} side="left" />
+            <SwipeEdgeIndicator translateX={translateX} side="right" />
+            <SwipeIndicator 
+              visible={showIndicator} 
+              onComplete={markIndicatorAsSeen}
+            />
+          </>
+        )}
+      </Animated.View>
+    </PanGestureHandler>
   );
 }
