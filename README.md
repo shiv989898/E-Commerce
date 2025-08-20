@@ -13,6 +13,7 @@ This is a modern mobile e-commerce product listing application built using **Rea
 - ✅ Full cart functionality with quantity controls and persistent storage
 - ✅ Dynamic tab badges showing cart and wishlist item counts
 - ✅ Advanced search with real-time filtering
+- ✅ **Swipe navigation** between tabs with gesture recognition
 
 ### UI/UX Enhancements
 - ✅ Dark theme with black background and red (#e50914) accent colors
@@ -22,6 +23,9 @@ This is a modern mobile e-commerce product listing application built using **Rea
 - ✅ Reusable UI components (AppButton, ProductCard, FilterModal)
 - ✅ Vertical content centering on product details screen
 - ✅ Custom back button with proper navigation
+- ✅ **Intuitive swipe gestures** with visual feedback and haptic response
+- ✅ **Tab position indicators** and edge swipe boundaries
+- ✅ **First-time user tutorial** for swipe navigation discovery
 
 ### Technical Features
 - ✅ File-based routing with Expo Router
@@ -43,6 +47,9 @@ This is a modern mobile e-commerce product listing application built using **Rea
 - **expo-linear-gradient** - Gradient backgrounds
 - **expo-screen-orientation** - Orientation control
 - **@react-native-picker/picker** - Filter dropdowns
+- **react-native-gesture-handler** - Swipe gesture detection
+- **react-native-reanimated** - Smooth animations
+- **expo-haptics** - Tactile feedback for gestures
 - **FakeStore API** - Product data source
 
 ---
@@ -124,6 +131,15 @@ E-Commerce/
 ---
 
 ## 💡 Key Features & Implementation
+
+### 👆 Swipe Navigation System
+- **Gesture-Based Navigation**: Swipe left/right anywhere on screen to navigate between tabs
+- **Tab Order**: Home → Wishlist → Cart → Explore (bidirectional)
+- **Smart Thresholds**: 25% screen width swipe or high velocity triggers navigation
+- **Visual Feedback**: Edge indicators, color tints, and position dots
+- **Haptic Response**: Tactile feedback on successful navigation
+- **First-Time Tutorial**: Animated guide for new users (shown once)
+- **Smooth Animations**: Spring-based transitions with proper damping
 
 ### Dark Theme with Red Accents
 - Consistent black (#000000) background across all screens
