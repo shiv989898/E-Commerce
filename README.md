@@ -1,99 +1,162 @@
 # 🛍️ E-Commerce Product Listing App (React Native + Expo Router)
 
-This is a mobile e-commerce product listing application built using **React Native**, **Expo Router**, and **TypeScript**, designed as part of a frontend development assignment for Simplify Money.
+This is a modern mobile e-commerce product listing application built using **React Native**, **Expo Router**, and **TypeScript**. Features a sleek dark theme with red accents, persistent data storage, and a polished user experience.
 
 ---
 
 ## 📲 Features
 
-- ✅ Product listing from FakeStore API
-- ✅ Product details page with image, description, price, and rating
-- ✅ Wishlist functionality (toggle using heart icon)
-- ✅ Add to Cart (with persistent cart using AsyncStorage)
-- ✅ Bottom Tab Navigation (Home, Wishlist, Cart)
-- ✅ Search functionality
-- ✅ Filter by category, rating
-- ✅ Sort by price (low to high / high to low)
-- ✅ State management via Context API
-- ✅ Responsive and clean UI
+### Core Functionality
+- ✅ Product listing from FakeStore API with modern grid layout
+- ✅ Dedicated product details screen with portrait orientation lock
+- ✅ Persistent wishlist using AsyncStorage with context provider
+- ✅ Full cart functionality with quantity controls and persistent storage
+- ✅ Dynamic tab badges showing cart and wishlist item counts
+- ✅ Advanced search with real-time filtering
+
+### UI/UX Enhancements
+- ✅ Dark theme with black background and red (#e50914) accent colors
+- ✅ Modern bottom-sheet filter modal (category, rating, price sorting)
+- ✅ Gradient hero section with integrated search bar
+- ✅ Skeleton loading states for smooth user experience
+- ✅ Reusable UI components (AppButton, ProductCard, FilterModal)
+- ✅ Vertical content centering on product details screen
+- ✅ Custom back button with proper navigation
+
+### Technical Features
+- ✅ File-based routing with Expo Router
+- ✅ Context API for state management (Cart & Wishlist)
+- ✅ TypeScript for type safety
+- ✅ Screen orientation control
+- ✅ AsyncStorage for data persistence
+- ✅ Component-based architecture
 
 ---
 
 ## 🔧 Tech Stack
 
-- **React Native**
-- **Expo + Expo Router**
-- **TypeScript**
-- **AsyncStorage**
-- **Context API**
-- **FakeStore API**
+- **React Native** - Mobile app framework
+- **Expo + Expo Router** - Development platform and navigation
+- **TypeScript** - Type-safe JavaScript
+- **AsyncStorage** - Local data persistence
+- **Context API** - State management
+- **expo-linear-gradient** - Gradient backgrounds
+- **expo-screen-orientation** - Orientation control
+- **@react-native-picker/picker** - Filter dropdowns
+- **FakeStore API** - Product data source
 
 ---
 
-## ▶️ How to Run
+## 🚀 Getting Started
 
-1. Clone the repository:
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- Expo CLI (`npm install -g @expo/cli`)
+- iOS Simulator / Android Emulator or physical device
 
-```bash
-git clone https://github.com/shiv989898/E-Commerce
-cd E-Commerce
-```
-2. Install dependencies:
+### Installation & Setup
 
-```bash
-npm install
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/shiv989898/E-Commerce
+   cd E-Commerce
+   ```
 
-3. Start the project:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-```bash
-npx expo start
-```
+3. **Start the development server**
+   ```bash
+   npx expo start
+   ```
 
-You can open the app using:
-
-- 📱 **Expo Go** on a physical device (scan QR)
-- 🖥️ **Android/iOS Emulator**
-- 💻 **Web browser** for quick UI testing
+4. **Run on device/simulator**
+   - Press `i` for iOS Simulator
+   - Press `a` for Android Emulator
+   - Scan QR code with Expo Go app on physical device
 
 ---
 
-## 🗂️ File Structure
+## 🎯 API Integration
 
-```bash
+- **Data Source**: [FakeStore API](https://fakestoreapi.com/)
+- **Endpoints Used**:
+  - `GET /products` - Fetch all products with filtering support
+  - `GET /products/{id}` - Fetch single product details
+  - `GET /products/categories` - Fetch categories for filter options
+
+---
+
+## 📁 Project Structure
+
+```
 E-Commerce/
-├── app/
-│   ├── index.tsx           # Home screen with product listing, search, filters
-│   ├── details/[id].tsx    # Product details screen
-│   ├── wishlist.tsx        # Wishlist page
-│   ├── cart.tsx            # Cart page
-│   ├── _layout.tsx         # App layout with tab navigation
-├── context/
-│   ├── CartContext.tsx     # Cart state management (add, remove, clear)
-├── assets/                 # Static assets
-├── app.json                # Expo config
-├── package.json            # Project dependencies
+├── 📱 app/                          # App routing and screens
+│   ├── _layout.tsx                  # Root layout with navigation config
+│   ├── +not-found.tsx               # 404 error screen
+│   ├── (tabs)/                      # Tab navigation group
+│   │   ├── _layout.tsx              # Tab layout with providers and badges
+│   │   ├── index.tsx                # Home screen with product grid
+│   │   ├── Cart.tsx                 # Shopping cart screen
+│   │   ├── wishlist.tsx             # Wishlist screen
+│   │   └── explore.tsx              # Explore/discovery screen
+│   └── details/
+│       └── [id].tsx                 # Dynamic product details screen
+├── 🎨 components/                   # Reusable UI components
+│   ├── ProductCard.tsx              # Product grid item component
+│   ├── ProductDetails.tsx           # Product detail view component
+│   ├── ui/                          # Modern UI components
+│   │   ├── AppButton.tsx            # Reusable button with variants
+│   │   └── FilterModal.tsx          # Bottom-sheet filter modal
+│   └── Themed*.tsx                  # Theme-aware components
+├── 🎯 context/                      # State management
+│   ├── CartContext.tsx              # Persistent cart state with AsyncStorage
+│   └── WishlistContext.tsx          # Persistent wishlist state with AsyncStorage
+├── 🎨 constants/
+│   └── Colors.ts                    # Dark theme color tokens
+├── 🔧 hooks/                        # Custom React hooks
+└── 📦 assets/                       # Static assets (images, fonts)
 ```
 
 ---
 
-## 💡 My Approach
+## 💡 Key Features & Implementation
 
-- The app uses **Expo Router** for file-based navigation, allowing clean screen routing.
-- Product data is fetched dynamically from **FakeStore API**.
-- Cart and wishlist data are managed globally using **Context API**.
-- Cart is persisted using **AsyncStorage** for a seamless user experience.
-- The app supports **filtering by category/rating**, and **sorting by price**, providing a complete shopping experience.
-- The UI is clean, minimal, and responsive.
+### Dark Theme with Red Accents
+- Consistent black (#000000) background across all screens
+- Red (#e50914) accent color for interactive elements
+- Centralized color system in `constants/Colors.ts`
+
+### Persistent Data Storage
+- **Wishlist**: AsyncStorage with Context API for persistent favorites
+- **Cart**: AsyncStorage with quantity management and persistent shopping cart
+- **State Sync**: Real-time synchronization between storage and UI
+
+### Modern UI Components
+- **FilterModal**: Bottom-sheet style modal with category, rating, and price sorting
+- **AppButton**: Reusable button component with primary/secondary variants
+- **ProductCard**: Optimized grid layout with wishlist toggle and add-to-cart
+- **Dynamic Badges**: Tab navigation with real-time cart and wishlist counts
+
+### Navigation & UX
+- File-based routing with Expo Router for clean navigation
+- Portrait orientation lock on product details screen
+- Vertical content centering for optimal viewing
+- Custom back navigation with proper screen transitions
 
 ---
 
-## 🚧 Challenges & Notes
+## 🛠️ Technical Highlights
 
-- Category strings from the API are not prettified (e.g., lowercase). They’re shown as-is.
-- Product quantity logic in the cart is not yet implemented — current cart assumes 1 quantity per item.
-- All features were implemented without third-party state libraries, to keep the app lightweight and easy to maintain.
-- Cart and Wishlist states reset when the app is restarted unless saved — cart is persisted, wishlist is not.
+- **TypeScript**: Full type safety throughout the application
+- **Context API**: Global state management without external libraries
+- **AsyncStorage**: Persistent data storage for cart and wishlist
+- **Component Architecture**: Modular, reusable UI components
+- **Performance**: Optimized rendering with proper state management
+- **Error Handling**: Graceful error states and loading indicators
 
 ---
 
@@ -104,9 +167,6 @@ E-Commerce/
 >![WhatsApp Image 2025-04-05 at 01 12 54_4e4b9b4a](https://github.com/user-attachments/assets/badc60ad-89c1-4a99-a166-380a78632da1)
 > ![WhatsApp Image 2025-04-05 at 01 12 54_b621d12c](https://github.com/user-attachments/assets/82c73175-b4e1-4b74-8862-b3026a1db1e7)
 
-
-
-
 ---
 
 ## 🙋‍♂️ Author
@@ -116,4 +176,3 @@ E-Commerce/
 🔗 [GitHub Profile](https://github.com/shiv989898)
 
 ---
-
