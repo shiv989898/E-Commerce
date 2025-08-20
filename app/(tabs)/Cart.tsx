@@ -1,14 +1,8 @@
-import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
-import { useCart } from "../../context/CartContext";
+import React from 'react';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { useCart } from '../../context/CartContext';
+import { Feather } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 export default function CartScreen() {
   const { cart, addToCart, removeFromCart, decreaseQuantity, getTotalPrice } = useCart();
@@ -48,90 +42,76 @@ export default function CartScreen() {
         data={cart}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ paddingBottom: 24 }}
+        contentContainerStyle={{ paddingBottom: 140 }}
+        ListEmptyComponent={<Text style={styles.empty}>Your cart is empty.</Text>}
+        showsVerticalScrollIndicator={false}
       />
       <View style={styles.totalContainer}>
-        <Text style={styles.totalText}>Total: ${getTotalPrice().toFixed(2)}</Text>
+        <View style={styles.totalRow}>
+          <Text style={styles.totalLabel}>Subtotal</Text>
+          <Text style={styles.totalValue}>${getTotalPrice().toFixed(2)}</Text>
+        </View>
+        <TouchableOpacity style={styles.checkoutBtn} disabled={cart.length === 0}>
+          <Feather name="credit-card" color="#fff" size={16} />
+          <Text style={styles.checkoutText}>Checkout</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 48,
-    paddingHorizontal: 16,
-    backgroundColor: "#fff",
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
+  container: { flex: 1, paddingTop: 50, paddingHorizontal: 16, backgroundColor: '#000' },
+  header: { fontSize: 26, fontWeight: '800', marginBottom: 16, color: Colors.light.tint },
   itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f9f9f9",
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 16,
-    shadowColor: "#000",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#141414',
+    borderRadius: 16,
+    padding: 14,
+    marginBottom: 18,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
     elevation: 3,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#262626',
   },
-  image: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    marginRight: 12,
-  },
+  image: { width: 70, height: 70, borderRadius: 12, marginRight: 14 },
   details: {
     flex: 1,
   },
-  title: {
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  price: {
-    fontSize: 14,
-    color: "#888",
-    marginBottom: 4,
-  },
-  quantityContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  quantityBtn: {
-    backgroundColor: "#ddd",
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  },
-  quantityBtnText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  quantityText: {
-    marginHorizontal: 8,
-    fontSize: 14,
-  },
-  remove: {
-    fontSize: 18,
-    color: "red",
-    paddingLeft: 8,
-  },
+  title: { fontSize: 14, fontWeight: '700', color: '#fff' },
+  price: { fontSize: 13, color: '#b3b3b3', marginBottom: 6, fontWeight: '500' },
+  quantityContainer: { flexDirection: 'row', alignItems: 'center' },
+  quantityBtn: { backgroundColor: Colors.light.tint, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  quantityBtnText: { fontSize: 16, fontWeight: '700', color: '#fff' },
+  quantityText: { marginHorizontal: 10, fontSize: 14, fontWeight: '600', color: '#fff' },
+  remove: { fontSize: 18, color: '#ff4d4f', paddingLeft: 8 },
+  empty: { textAlign: 'center', marginTop: 60, color: '#777', fontSize: 15 },
   totalContainer: {
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#eee",
-    marginTop: "auto",
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: 20,
+    backgroundColor: '#141414f2',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#262626',
+    gap: 14,
   },
-  totalText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "right",
+  totalRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  totalLabel: { fontSize: 14, color: '#b3b3b3', fontWeight: '500' },
+  totalValue: { fontSize: 20, fontWeight: '800', color: Colors.light.tint },
+  checkoutBtn: {
+    backgroundColor: Colors.light.tint,
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 8,
   },
+  checkoutText: { color: '#fff', fontWeight: '700', fontSize: 16 },
 });

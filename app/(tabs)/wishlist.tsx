@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, FlatList, Image } from "react-native";
-import { useEffect, useState, useContext } from "react";
-import { useLocalSearchParams } from "expo-router";
-import { WishlistContext } from "./_layout";
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { useEffect, useState } from 'react';
+import { useWishlist } from '@/context/WishlistContext';
+import { Feather } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 interface Product {
   id: number;
@@ -18,9 +19,8 @@ interface Product {
 }
 
 export default function WishlistScreen() {
-  const params = useLocalSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
-  const { wishlist } = useContext(WishlistContext);
+  const { wishlist } = useWishlist();
 
   useEffect(() => {
     (async () => {
@@ -38,66 +38,59 @@ export default function WishlistScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Wishlist</Text>
+      <Text style={styles.title}>Wishlist</Text>
       <FlatList
         data={wishlistItems}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ paddingBottom: 24 }}
+        contentContainerStyle={{ paddingBottom: 40 }}
+        ListEmptyComponent={<Text style={styles.empty}>No items saved yet.</Text>}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
             <Image source={{ uri: item.image }} style={styles.image} />
             <View style={styles.info}>
-              <Text style={styles.name}>{item.title}</Text>
-              <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+              <Text style={styles.name} numberOfLines={2}>{item.title}</Text>
+              <View style={styles.metaRow}>
+                <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+                <View style={styles.ratingWrap}>
+                  <Feather name="star" size={12} color={Colors.light.accent} />
+                  <Text style={styles.ratingText}>{item.rating.rate.toFixed(1)}</Text>
+                </View>
+              </View>
             </View>
           </View>
         )}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 48,
-    paddingHorizontal: 16,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
+  container: { flex: 1, paddingTop: 50, paddingHorizontal: 16, backgroundColor: '#000' },
+  title: { fontSize: 26, fontWeight: '800', marginBottom: 16, color: Colors.light.tint },
   itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f9f9f9",
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#141414',
+    borderRadius: 16,
+    padding: 14,
+    marginBottom: 18,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 2,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#262626',
   },
-  image: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    marginRight: 12,
-  },
+  image: { width: 70, height: 70, borderRadius: 12, marginRight: 14 },
   info: {
     flex: 1,
   },
-  name: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  price: {
-    fontSize: 14,
-    color: "#888",
-  },
+  name: { fontSize: 14, fontWeight: '700', marginBottom: 8, color: '#fff' },
+  metaRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  price: { fontSize: 14, fontWeight: '600', color: Colors.light.tint },
+  ratingWrap: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  ratingText: { fontSize: 12, fontWeight: '600', color: '#fff' },
+  empty: { textAlign: 'center', marginTop: 60, color: '#777', fontSize: 15 },
 });

@@ -1,70 +1,91 @@
-import { Slot } from "expo-router";
-import { Tabs } from "expo-router/tabs";
-import { Feather } from "@expo/vector-icons";
-import React, { createContext, useState } from "react";
-import { CartProvider } from "@/context/CartContext";
+// Clean single implementation
+import React from 'react';
+import { Tabs } from 'expo-router/tabs';
+import { Feather } from '@expo/vector-icons';
+import { View, Text, StyleSheet } from 'react-native';
+import { CartProvider, useCart } from '@/context/CartContext';
+import { WishlistProvider, useWishlist } from '@/context/WishlistContext';
 
-// Wishlist context setup
-export const WishlistContext = createContext<{
-  wishlist: number[];
-  toggleWishlist: (id: number) => void;
-}>({
-  wishlist: [],
-  toggleWishlist: () => {},
-});
-
-export default function Layout() {
-  const [wishlist, setWishlist] = useState<number[]>([]);
-
-  const toggleWishlist = (id: number) => {
-    setWishlist((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
-
+function Badge({ count }: { count: number }) {
+  if (!count) return null;
   return (
-    <WishlistContext.Provider value={{ wishlist, toggleWishlist }}>
-      <CartProvider>
-        <Tabs
-          screenOptions={{
-            headerShown: false,
-            tabBarActiveTintColor: "tomato",
-          }}
-        >
-          <Tabs.Screen
-            name="index"
-            options={{
-              title: "Home",
-              tabBarIcon: ({ color, size }) => (
-                <Feather name="home" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="wishlist"
-            options={{
-              title: "Wishlist",
-              tabBarIcon: ({ color, size }) => (
-                <Feather name="heart" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="cart"
-            options={{
-              title: "Cart",
-              tabBarIcon: ({ color, size }) => (
-                <Feather name="shopping-bag" color={color} size={size} />
-              ),
-            }}
-          />
-          {/* ❌ Don't include `details` in the tab bar */}
-          <Tabs.Screen
-            name="details/[id]"
-            options={{ href: null }} // Hide from tab bar
-          />
-        </Tabs>
-      </CartProvider>
-    </WishlistContext.Provider>
+    <View style={styles.badge}>
+      <Text style={styles.badgeText}>{count > 99 ? '99+' : count}</Text>
+    </View>
   );
 }
+
+function TabNavigator() {
+  const { wishlist } = useWishlist();
+  const { cart } = useCart();
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#e50914',
+        tabBarStyle: { backgroundColor: '#000', borderTopColor: '#181818' },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => <Feather name="home" color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="wishlist"
+        options={{
+          title: 'Wishlist',
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Feather name="heart" color={color} size={size} />
+              <Badge count={wishlist.length} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          title: 'Cart',
+          tabBarIcon: ({ color, size }) => (
+            <View>
+              <Feather name="shopping-bag" color={color} size={size} />
+              <Badge count={cartCount} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen name="details/[id]" options={{ href: null }} />
+    </Tabs>
+  );
+}
+
+export default function Layout() {
+  return (
+    <WishlistProvider>
+      <CartProvider>
+        <TabNavigator />
+      </CartProvider>
+    </WishlistProvider>
+  );
+}
+
+const styles = StyleSheet.create({
+  badge: {
+    position: 'absolute',
+    top: -4,
+    right: -10,
+    backgroundColor: '#e50914',
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    minWidth: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: { color: '#fff', fontSize: 10, fontWeight: '700' },
+});
